@@ -1,11 +1,13 @@
 package com.stockguru.services;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+
+//import java.util.ArrayList;
+//import java.util.Collection;
+//import java.util.List;
 import java.util.Map;
 
 import com.stockguru.exceptions.InvalidDetailsException;
+import com.stockguru.exceptions.DuplicateDataException;
 import com.stockguru.entity.Broker;
 
 
@@ -25,6 +27,21 @@ if (broker.containsKey(brokerUsername) ) {
 			
 		} else {
 			throw new InvalidDetailsException("you have not sign up yet, please signup");
+		}
+	}
+
+	@Override
+	public void signUp(Broker brk, Map<String, Broker> broker) throws DuplicateDataException {
+		// TODO Auto-generated method stub
+		
+		if (broker.containsKey(brk.getBrokerUsername())) {
+			
+			throw new DuplicateDataException("Customer already exists , please login");
+			
+		} else {
+
+			broker.put(brk.getBrokerUsername(), brk);
+
 		}
 	}
 	

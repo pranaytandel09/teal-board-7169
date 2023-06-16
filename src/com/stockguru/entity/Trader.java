@@ -9,6 +9,17 @@ public class Trader implements Serializable{
 	private int age;
 	private double walletAmount;
 	private String email;
+	
+	
+	
+	public Trader(String username, String password, int age, double walletAmount, String email) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.age = age;
+		this.walletAmount = walletAmount;
+		this.email = email;
+	}
 	public String getUsername() {
 		return username;
 	}

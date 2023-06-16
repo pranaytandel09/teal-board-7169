@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Broker implements Serializable{
 
-	private String brokerId;
+	private String brokerUsername;
 	private String brokerPassword;
 	private int age;
 	private int experience;
@@ -14,13 +14,26 @@ public class Broker implements Serializable{
 	public Broker(){
 		super();
 	}
+	
 
-	public String getBrokerId() {
-		return brokerId;
+	public Broker(String brokerUsername, String brokerPassword, int age, int experience, int qualification,
+			String email) {
+		super();
+		this.brokerUsername = brokerUsername;
+		this.brokerPassword = brokerPassword;
+		this.age = age;
+		this.experience = experience;
+		this.qualification = qualification;
+		this.email = email;
 	}
 
-	public void setBrokerId(String brokerId) {
-		this.brokerId = brokerId;
+
+	public String getBrokerUsername() {
+		return brokerUsername;
+	}
+
+	public void setBrokerId(String brokerUsername) {
+		this.brokerUsername = brokerUsername;
 	}
 
 	public String getBrokerPassword() {
@@ -65,7 +78,7 @@ public class Broker implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Broker [brokerId=" + brokerId + ", brokerPassword=" + brokerPassword + ", age=" + age + ", experience="
+		return "Broker [brokerUsername=" + brokerUsername + ", brokerPassword=" + brokerPassword + ", age=" + age + ", experience="
 				+ experience + ", qualification=" + qualification + ", email=" + email + "]";
 	}
 	

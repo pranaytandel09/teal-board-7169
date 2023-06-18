@@ -10,6 +10,7 @@ import com.stockguru.entity.Transaction;
 import com.stockguru.exceptions.DuplicateDataException;
 import com.stockguru.exceptions.InvalidDetailsException;
 import com.stockguru.exceptions.StockException;
+import com.stockguru.exceptions.TransactionException;
 import com.stockguru.exceptions.AccountException;
 
 public interface TraderServices {
@@ -28,6 +29,12 @@ public interface TraderServices {
 	public double viewWalletBalance(String username, Map<String, Trader> trader);
 
 	public String traderAddMoneyToWallet(Scanner sc, String username, Map<String, Trader> trader);
+
+	public void deleteAccount(String username, Map<String, Trader> trader);
+
+	public void sellStock(Scanner sc, String username, Map<String, Trader> trader, List<Transaction> transactions) throws TransactionException;
+
+	public void viewPortfolio(String username, List<Transaction> transactions) throws TransactionException;
 
 	
 

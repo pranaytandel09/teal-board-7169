@@ -78,24 +78,26 @@ public static Map<String, Trader> traderFile(){
 	}
 
 public static List<Transaction> transactionFile(){
-	
+	System.out.println("in the mwthod transaction read/write");
 	List<Transaction> transFile= new ArrayList<>();
 	File f= new File("Transaction.ser");
 	boolean flag= false;
 	try {
 	
 	if(!f.exists()) {
-		
+		System.out.println("new transaction file creation");
 		f.createNewFile();
 		flag= true;
 	}
 	if(flag) {
+		System.out.println("new transaction file");
 		transFile= new ArrayList<>();
 		ObjectOutputStream boos= new ObjectOutputStream(new FileOutputStream(f));
 		boos.writeObject(transFile);
 		return transFile;
 	}
 	else {
+		System.out.println("existing transaction file");
 		ObjectInputStream bois= new ObjectInputStream(new FileInputStream(f));
 		transFile= (List<Transaction>) bois.readObject();
 		return transFile;

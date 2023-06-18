@@ -10,13 +10,28 @@ public class Transaction implements Serializable{
 	private String email;
 	private double buyingPrice;
 	private int quantity;
+	private double sellingPrice=0.0;
 	private LocalDate dt;
 	
 	public Transaction() {
 		
 	}
+	
+	
 
-	public Transaction(String name,String username, String email, double buyingPrice, int qty, LocalDate now) {
+	public Transaction(String name, String username, String email, double buyingPrice, int quantity, LocalDate dt) {
+		super();
+		this.name = name;
+		this.username = username;
+		this.email = email;
+		this.buyingPrice = buyingPrice;
+		this.quantity = quantity;
+		this.dt = dt;
+	}
+
+
+
+	public Transaction(String name,String username, String email, double buyingPrice, int qty, double sellingPrice,LocalDate now ) {
 		// TODO Auto-generated constructor stub
 		this.name= name;
 		this.username=username;
@@ -24,6 +39,7 @@ public class Transaction implements Serializable{
 		this.buyingPrice=buyingPrice;
 		this.quantity=qty;
 		this.dt=now;
+		this.sellingPrice=sellingPrice;
 	}
 
 	public String getName() {
@@ -73,12 +89,25 @@ public class Transaction implements Serializable{
 	public void setNow(LocalDate now) {
 		this.dt = now;
 	}
+	
+
+	public double getSellingPrice() {
+		return sellingPrice;
+	}
+
+	public void setSellingPrice(double sellingPrice) {
+		this.sellingPrice = sellingPrice;
+	}
 
 	@Override
 	public String toString() {
 		return "Transaction [name=" + name + ", username=" + username + ", email=" + email + ", buyingPrice="
-				+ buyingPrice + ", quantity=" + quantity + ", dt=" + dt + "]";
+				+ buyingPrice + ", quantity=" + quantity + ", sellingPrice=" + sellingPrice + ", dt=" + dt + "]";
 	}
+
+	
+
+	
 
 	
 }

@@ -12,6 +12,7 @@ import com.stockguru.exceptions.AccountException;
 
 import com.stockguru.entity.Admin;
 import com.stockguru.entity.Broker;
+import com.stockguru.entity.Portfolio;
 import com.stockguru.entity.Stock;
 import com.stockguru.entity.Trader;
 import com.stockguru.entity.Transaction;
@@ -37,11 +38,11 @@ public class Main {
 			
 			do {
 
-				System.out.println("Press 1 view all broker's accounts");
-				System.out.println("Press 2 view all trader's accounts");
-				System.out.println("Press 3 to view all transactions");
+				System.out.println("'1' to view all broker's accounts");
+				System.out.println("'2' to view all trader's accounts");
+				System.out.println("'3' to view all transactions");
 			
-				System.out.println("Press 4 to log out");
+				System.out.println("'4' to log out");
 				choice = sc.nextInt();
 
 				switch (choice) {
@@ -60,14 +61,14 @@ public class Main {
 //				case 4:
 //                      viewfilterdTransactions(sc,transactions,transactionService);
 //					break;
-				case 5:
+				case 4:
 					System.out.println("admin has successfully logout");
 					break;
 				default:
 					throw new IllegalArgumentException("Unexpected value: " + choice);
 				}
 
-			} while (choice < 5);
+			} while (choice < 4);
 			
 		}catch(Exception e) {
 			System.out.println(e.getMessage());
@@ -107,7 +108,7 @@ public static void ViewAllBrokerAcc(Map<String, Broker> broker, BrokerServices b
 
 	
 }
-public static void brokerFunctionality(Scanner sc, Map<String, Broker> broker, Map<String, Trader> trader, List<Transaction> transactions) throws InvalidDetailsException, AccountException{
+public static void brokerFunctionality(Scanner sc, Map<String, Broker> broker, Map<String, Trader> trader, List<Transaction> transactions, List<Portfolio> pof) throws InvalidDetailsException, AccountException{
 		
 	AdminServices adminService= new AdminServicesImpl();
 	BrokerServices brokerService = new BrokerServicesImpl();
@@ -115,11 +116,7 @@ public static void brokerFunctionality(Scanner sc, Map<String, Broker> broker, M
 	TransactionServices transactionService= new TransactionServicesImpl();
 	
 	try {
-		System.out.println("Please enter your preference, " + " '1' --> Broker login , '2' --> Broker signup ");
-		int pref=0;
-		pref=sc.nextInt();
 		
-		if(pref==1) {
 			//BrokerLogin
 			System.out.println("please enter the following details to login");
 			System.out.println("please enter the username");
@@ -132,11 +129,11 @@ public static void brokerFunctionality(Scanner sc, Map<String, Broker> broker, M
 				int choice = 0;
 				do {
 					System.out.println("Select the option of your choice");
-					System.out.println("Press 1 to view all trader's account");
-					System.out.println("Press 2 to view trader's porfolio");
-					System.out.println("Press 3 to view transaction history");
-					System.out.println("Press 4 view transaction history of perticular trader");
-					System.out.println("Press 5 to logout");
+					System.out.println("'1' to view all trader's account");
+					System.out.println("'2' to view trader's porfolio");
+					System.out.println("'3' to view transaction history");
+					System.out.println("'4' to view transaction history of perticular trader");
+					System.out.println("'5' to logout");
 					choice = sc.nextInt();
 
 					switch (choice) {
@@ -144,7 +141,7 @@ public static void brokerFunctionality(Scanner sc, Map<String, Broker> broker, M
 						viewAllTradersAcc(trader,traderServices);
 						break;
 					case 2:
-						adminViewTradersPortfolio(sc,transactions,traderServices,trader);
+						adminViewTradersPortfolio(sc,transactions,traderServices,trader,pof);
 						break;
 					case 3:
 						viewOverallTransactions(transactions,transactionService);
@@ -165,15 +162,6 @@ public static void brokerFunctionality(Scanner sc, Map<String, Broker> broker, M
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
-		}
-		else if(pref==2){
-			brokerSignup(sc, broker,brokerService);
-//			System.out.println("successfully login.......");
-		}
-		else {
-			throw new IllegalArgumentException("Invalid Selection");
-		}
-		
 	} catch (Exception e) {
 		// TODO: handle exception
 		System.out.println(e.getMessage());
@@ -181,6 +169,7 @@ public static void brokerFunctionality(Scanner sc, Map<String, Broker> broker, M
 	
 	
 	}
+
 	
 private static void adminViewTradersTransaction(Scanner sc, List<Transaction> transactions,
 		TransactionServices transactionService) {
@@ -191,7 +180,7 @@ private static void adminViewTradersTransaction(Scanner sc, List<Transaction> tr
 		transactionService.traderTransactions(username,transactions);
 	} catch (TransactionException e) {
 		// TODO Auto-generated catch block
-		e.printStackTrace();
+		System.out.println(e.getMessage());
 	}
 	
 }
@@ -207,7 +196,7 @@ private static void viewOverallTransactions(List<Transaction> transactions, Tran
 }
 
 private static void adminViewTradersPortfolio(Scanner sc, List<Transaction> transactions,
-		TraderServices traderServices, Map<String, Trader> trader)  {
+		TraderServices traderServices, Map<String, Trader> trader, List<Portfolio> pof)  {
 	
 
 	
@@ -215,7 +204,7 @@ private static void adminViewTradersPortfolio(Scanner sc, List<Transaction> tran
 		System.out.println("enter trader's username");
 		String username= sc.next();
 		if(trader.containsKey(username)) {
-			traderPortfolio(username, transactions, traderServices);
+			traderPortfolio(username, transactions, traderServices, pof);
 		}
 		else {
 			throw new InvalidDetailsException("trader with given username not found");
@@ -259,7 +248,7 @@ public static void brokerSignup(Scanner sc, Map<String, Broker> broker, BrokerSe
 	
 }
 
-public static void traderFunctionality(Scanner sc, Map<String, Broker> broker, Map<String, Trader> trader, List<Transaction> transactions, Map<String, Stock> stock) throws InvalidDetailsException{
+public static void traderFunctionality(Scanner sc, Map<String, Broker> broker, Map<String, Trader> trader, List<Transaction> transactions, Map<String, Stock> stock, List<Portfolio> pof) throws InvalidDetailsException{
 	
 	BrokerServices brokerService = new BrokerServicesImpl();
 	TraderServices traderServices= new TraderServicesImpl();
@@ -269,7 +258,7 @@ public static void traderFunctionality(Scanner sc, Map<String, Broker> broker, M
 //	for(Transaction tr: transactions) {
 //		System.out.println(tr);
 //	}
-	System.out.println(trader);
+//	System.out.println(trader);
 		System.out.println("please enter the following details to login");
 		System.out.println("please enter the username");
 		String username = sc.next();
@@ -279,29 +268,30 @@ public static void traderFunctionality(Scanner sc, Map<String, Broker> broker, M
 		TraderLogin(username,pass, trader, traderServices);
 		
 		try {
+			
 			int choice = 0;
 			
 			do {
 				
 				System.out.println("Select the option of your choice");
-				System.out.println("Press 1 to view all stocks");
-				System.out.println("Press 2 to buy a new stock");
-				System.out.println("Press 3 sell a existing stock");
-				System.out.println("Press 4 view wallet balance");
-				System.out.println("Press 5 add wallet balance");
-				System.out.println("Press 6 view my Portfolio");
-				System.out.println("Press 7 view my transactions");
-				System.out.println("Press 8 delete the account");
-				System.out.println("Press 9 to logout");
+				System.out.println("'1' to view all stocks");
+				System.out.println("'2' to buy a new stock");
+				System.out.println("'3' to sell a existing stock");
+				System.out.println("'4' to view wallet balance");
+				System.out.println("'5' to add balance in the wallet");
+				System.out.println("'6' to view my Portfolio");
+				System.out.println("'7' to view my transactions");
+				System.out.println("'8' to delete the account");
+				System.out.println("'9' to logout");
 				choice = sc.nextInt();
                        
-				
+				try {
 				switch (choice) {
 				case 1:
 					viewAllStocks(traderServices ,stock);
 					break;
 				case 2:
-					String result = traderBuyStock(sc, username, trader, stock, transactions, traderServices);
+					String result = traderBuyStock(sc, username, trader, stock, transactions, traderServices, pof);
 					System.out.println(result);
 					break;
 				case 3:
@@ -317,7 +307,7 @@ public static void traderFunctionality(Scanner sc, Map<String, Broker> broker, M
 					System.out.println(moneyAdded);
 					break;
 				case 6:
-					traderPortfolio(username, transactions, traderServices);
+					traderPortfolio(username, transactions, traderServices, pof);
 					break;
 				case 7:
 					traderViewTraderTransactions(username, transactions, transactionService);
@@ -332,9 +322,13 @@ public static void traderFunctionality(Scanner sc, Map<String, Broker> broker, M
 					System.out.println("invalid choice");
 					break;
 				}
-			
+			}
+				catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
 
 			} while (choice < 8);
+			
 	
 		}
 		catch (Exception e) {
@@ -364,9 +358,9 @@ public static void traderFunctionality(Scanner sc, Map<String, Broker> broker, M
 
 
 
-private static void traderPortfolio(String username, List<Transaction> transactions, TraderServices traderServices) throws TransactionException {
+private static void traderPortfolio(String username, List<Transaction> transactions, TraderServices traderServices, List<Portfolio> pof) throws TransactionException {
 	// TODO Auto-generated method stub
-	traderServices.viewPortfolio(username, transactions);
+	traderServices.viewPortfolio(username, transactions, pof);
 	
 }
 
@@ -407,16 +401,16 @@ private static double traderViewWalletBalance(String username, Map<String, Trade
 }
 
 private static String traderBuyStock(Scanner sc, String username, Map<String, Trader> trader, Map<String, Stock> stock,
-		List<Transaction> transactions, TraderServices traderServices) throws StockException, InvalidDetailsException {
+		List<Transaction> transactions, TraderServices traderServices, List<Portfolio> pof) throws StockException, InvalidDetailsException {
 	// TODO Auto-generated method stub
 	
 	System.out.println("Enter the stock name(eg.IBM)");
 	String name = sc.next();
 	System.out.println("enter the quantity you want to buy");
 	int qty = sc.nextInt();
-	traderServices.buyStock(name, qty, username, trader, stock, transactions);
+	traderServices.buyStock(name, qty, username, trader, stock, transactions, pof);
 
-	return "You have successfully bought the product";
+	return "You have successfully bought the stock";
 	
 }
 
@@ -466,13 +460,14 @@ public static void traderSignup(Scanner sc, Map<String, Trader> trader) throws D
 		//file check
 				Map<String, Broker> broker = FileExist.brokerFile();
 				Map<String, Trader> trader = FileExist.traderFile();
+				List<Portfolio> pof = FileExist.portfolioFile();
 				List<Transaction> transactions = FileExist.transactionFile();
 				Map<String, Stock> stock = FileExist.stockFile();
 		
 		
 		Scanner sc= new Scanner(System.in);
-		System.out.println("Welcome to Trader's Mart...");
-		
+		System.out.println("Welcome To TCG Stock...");
+		System.out.println();
 		int preference=0;
 		try {
 		
@@ -485,8 +480,8 @@ public static void traderSignup(Scanner sc, Map<String, Trader> trader) throws D
 //				System.out.println(trader.size());
 //				System.out.println(transactions.size());
 				
-				System.out.println("Please enter your preference \n, " + " '1' --> Admin login \n , '2' --> Broker login , \n"
-						+ "'3' --> Broker signup, \n '4' --> Trader Login,\n  '5' --> Trader Signup,\n  '0' --> exit ");
+				System.out.println("Please enter your preference.\n" + "'1' --> Admin login \n'2' --> Broker login \n"
+						+ "'3' --> Broker Signup\n'4' --> Trader Login\n'5' --> Trader Signup\n'0' --> Exit ");
 				 preference= sc.nextInt();
 				try {
 					
@@ -497,15 +492,16 @@ public static void traderSignup(Scanner sc, Map<String, Trader> trader) throws D
 						break;
 					
 					case 2: 
-						brokerFunctionality(sc, broker, trader, transactions);
+						brokerFunctionality(sc, broker, trader, transactions, pof);
 						break;
 						
-//					case 3: 
-//						brokerSignup(sc, broker);
-//						break;
+					case 3: 
+						BrokerServices brokerService = new BrokerServicesImpl();
+						brokerSignup(sc, broker,  brokerService);
+						break;
 						
 					case 4: 
-						traderFunctionality(sc, broker, trader, transactions, stock);
+						traderFunctionality(sc, broker, trader, transactions, stock, pof);
 						break;
 						
 					case 5: 
@@ -513,7 +509,7 @@ public static void traderSignup(Scanner sc, Map<String, Trader> trader) throws D
 						break;
 						
 					case 0: 
-						System.out.println("successfully existed from the system");
+						System.out.println("successfully existed from the trader's mart");
 						break;
 						
 					default:
@@ -536,15 +532,19 @@ public static void traderSignup(Scanner sc, Map<String, Trader> trader) throws D
 			try {
 				ObjectOutputStream toos = new ObjectOutputStream(new FileOutputStream("trader.ser"));
 				toos.writeObject(trader);
+				
 				ObjectOutputStream boos = new ObjectOutputStream(new FileOutputStream("Broker.ser"));
 				boos.writeObject(broker);
 
+				ObjectOutputStream poos = new ObjectOutputStream(new FileOutputStream("porfolio.ser"));
+				poos.writeObject(pof);
+				
 				ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("Transaction.ser"));
 				oos.writeObject(transactions);
 				
 				ObjectOutputStream soos = new ObjectOutputStream(new FileOutputStream("stock.ser"));
 				soos.writeObject(stock);
-				System.out.println("serialized..........");
+//				System.out.println("serialized..........");
 			} catch (Exception e) {
 				// TODO: handle exception
 				System.out.println(e.getMessage());

@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.ArrayList;
 
 import com.stockguru.entity.Broker;
+import com.stockguru.entity.Portfolio;
 import com.stockguru.entity.Stock;
 import com.stockguru.entity.Trader;
 import com.stockguru.entity.Transaction;
@@ -78,26 +79,26 @@ public static Map<String, Trader> traderFile(){
 	}
 
 public static List<Transaction> transactionFile(){
-	System.out.println("in the mwthod transaction read/write");
+//	System.out.println("in the mwthod transaction read/write");
 	List<Transaction> transFile= new ArrayList<>();
 	File f= new File("Transaction.ser");
 	boolean flag= false;
 	try {
 	
 	if(!f.exists()) {
-		System.out.println("new transaction file creation");
+//		System.out.println("new transaction file creation");
 		f.createNewFile();
 		flag= true;
 	}
 	if(flag) {
-		System.out.println("new transaction file");
+//		System.out.println("new transaction file");
 		transFile= new ArrayList<>();
 		ObjectOutputStream boos= new ObjectOutputStream(new FileOutputStream(f));
 		boos.writeObject(transFile);
 		return transFile;
 	}
 	else {
-		System.out.println("existing transaction file");
+//		System.out.println("existing transaction file");
 		ObjectInputStream bois= new ObjectInputStream(new FileInputStream(f));
 		transFile= (List<Transaction>) bois.readObject();
 		return transFile;
@@ -191,4 +192,38 @@ public static Map<String, Stock> stockFile(){
 	return stockMap;
 }
 
+
+public static List<Portfolio> portfolioFile(){
+//	System.out.println("in the mwthod transaction read/write");
+	List<Portfolio> portfolioFile= new ArrayList<>();
+	File f= new File("portfolio.ser");
+	boolean flag= false;
+	try {
+	
+	if(!f.exists()) {
+//		System.out.println("new transaction file creation");
+		f.createNewFile();
+		flag= true;
+	}
+	if(flag) {
+//		System.out.println("new transaction file");
+		portfolioFile= new ArrayList<>();
+		ObjectOutputStream boos= new ObjectOutputStream(new FileOutputStream(f));
+		boos.writeObject(portfolioFile);
+		return portfolioFile;
+	}
+	else {
+//		System.out.println("existing transaction file");
+		ObjectInputStream bois= new ObjectInputStream(new FileInputStream(f));
+		portfolioFile= (List<Portfolio>) bois.readObject();
+		return portfolioFile;
+	}
+	}
+	catch(Exception e) {
+		System.out.println(e.getMessage());
+	}
+	return portfolioFile;
 }
+}
+
+

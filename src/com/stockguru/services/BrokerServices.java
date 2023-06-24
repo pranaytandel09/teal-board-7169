@@ -3,6 +3,7 @@ import com.stockguru.exceptions.AccountException;
 import com.stockguru.exceptions.DuplicateDataException;
 import com.stockguru.exceptions.InvalidDetailsException;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -13,7 +14,7 @@ public interface BrokerServices {
 
 	public boolean login(String brokerUsername, String brokerPass, Map<String, Broker> broker) throws InvalidDetailsException;
 
-	public void signUp(Scanner sc, Map<String, Broker> broker) throws DuplicateDataException;
+	public void signUp(Scanner sc, Map<String, Broker> broker, LinkedHashSet<Broker> bset) throws DuplicateDataException;
 
 	public List<Broker> viewAllBrokers(Map<String, Broker> broker) throws AccountException;
 

@@ -3,6 +3,8 @@ package com.stockguru.services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 //import java.util.ArrayList;
 //import java.util.Collection;
@@ -37,7 +39,7 @@ if (broker.containsKey(brokerUsername) ) {
 	}
 
 	@Override
-	public void signUp(Scanner sc, Map<String, Broker> broker) throws DuplicateDataException {
+	public void signUp(Scanner sc, Map<String, Broker> broker, LinkedHashSet<Broker> bset) throws DuplicateDataException {
 		// TODO Auto-generated method stub
 		System.out.println("please enter the following details to Signup for broker's account");
 		System.out.println("please enter the user name");
@@ -63,7 +65,8 @@ if (broker.containsKey(brokerUsername) ) {
 		} else {
 
 			broker.put(brk.getBrokerUsername(), brk);
-
+			bset.add(brk);
+            
 		}
 	}
 

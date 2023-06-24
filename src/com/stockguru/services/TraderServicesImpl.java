@@ -213,7 +213,7 @@ if (trader.containsKey(username) ) {
         	   System.out.println("Stock sold successfully, had profit of: "+sp);
            }
 			
-           Transaction tr = new Transaction(name, username, trader.get(username).getEmail(),buyPrice, qty, sp, LocalDate.now());
+           Transaction tr = new Transaction(name, username, trader.get(username).getEmail(),buyPrice, qty, buyPrice+sp, LocalDate.now());
            
           				transactions.add(tr);
            

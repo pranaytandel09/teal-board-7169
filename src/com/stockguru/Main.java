@@ -3,6 +3,7 @@ package com.stockguru;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.LinkedHashSet;
 
 import com.stockguru.exceptions.DuplicateDataException;
 import com.stockguru.exceptions.InvalidDetailsException;
@@ -23,7 +24,7 @@ import java.io.ObjectOutputStream;
 
 public class Main {
 
-	public static void adminFunctionality(Scanner sc, Map<String, Broker> broker, Map<String, Trader> trader, List<Transaction> transactions)
+	public static void adminFunctionality(Scanner sc, Map<String, Broker> broker, Map<String, Trader> trader, List<Transaction> transactions, LinkedHashSet<Broker> bset)
 	throws InvalidDetailsException{
 		
 		AdminServices adminService= new AdminServicesImpl();
@@ -41,7 +42,7 @@ public class Main {
 				System.out.println("'1' to view all broker's accounts");
 				System.out.println("'2' to view all trader's accounts");
 				System.out.println("'3' to view all transactions");
-			
+//				System.out.println("'4' to apply for broker account");
 				System.out.println("'4' to log out");
 				choice = sc.nextInt();
 
@@ -59,7 +60,7 @@ public class Main {
 					viewOverallTransactions(transactions,transactionService);
 					break;
 //				case 4:
-//                      viewfilterdTransactions(sc,transactions,transactionService);
+//                      viewBrokerAccApplications(broker,brokerService);
 //					break;
 				case 4:
 					System.out.println("admin has successfully logout");
@@ -241,10 +242,10 @@ private static void BrokerLogin(String username, String pass, Map<String, Broker
 	
 }
 
-public static void brokerSignup(Scanner sc, Map<String, Broker> broker, BrokerServices brokerService) throws DuplicateDataException {
+public static void brokerSignup(Scanner sc, Map<String, Broker> broker, BrokerServices brokerService, LinkedHashSet<Broker> bset) throws DuplicateDataException {
 
-	brokerService.signUp(sc, broker);
-	System.out.println("sign up Successful");
+	brokerService.signUp(sc, broker,bset);
+	System.out.println("Account application successful");
 	
 }
 
@@ -463,10 +464,14 @@ public static void traderSignup(Scanner sc, Map<String, Trader> trader) throws D
 				List<Portfolio> pof = FileExist.portfolioFile();
 				List<Transaction> transactions = FileExist.transactionFile();
 				Map<String, Stock> stock = FileExist.stockFile();
-		
+				
+		//list made to save the broken acc applications........
+				LinkedHashSet<Broker> bset= new LinkedHashSet<>();
+				
+				
 		
 		Scanner sc= new Scanner(System.in);
-		System.out.println("Welcome To TCG Stock...");
+		System.out.println("------------------->Welcome To TCG_Stocks<------------------------");
 		System.out.println();
 		int preference=0;
 		try {
@@ -488,7 +493,7 @@ public static void traderSignup(Scanner sc, Map<String, Trader> trader) throws D
 					switch(preference) {
 					
 					case 1: 
-						adminFunctionality(sc, broker, trader, transactions);
+						adminFunctionality(sc, broker, trader, transactions,bset);
 						break;
 					
 					case 2: 
@@ -497,7 +502,7 @@ public static void traderSignup(Scanner sc, Map<String, Trader> trader) throws D
 						
 					case 3: 
 						BrokerServices brokerService = new BrokerServicesImpl();
-						brokerSignup(sc, broker,  brokerService);
+						brokerSignup(sc, broker,  brokerService,bset);
 						break;
 						
 					case 4: 
@@ -509,7 +514,7 @@ public static void traderSignup(Scanner sc, Map<String, Trader> trader) throws D
 						break;
 						
 					case 0: 
-						System.out.println("successfully existed from the trader's mart");
+						System.out.println("successfully existed from the TCG stock");
 						break;
 						
 					default:

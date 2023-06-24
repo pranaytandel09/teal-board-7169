@@ -37,12 +37,14 @@ public class Main {
 		try {
 			
 			do {
-
+				System.out.println("-------------------------------------->");
 				System.out.println("'1' to view all broker's accounts");
 				System.out.println("'2' to view all trader's accounts");
 				System.out.println("'3' to view all transactions");
 			
 				System.out.println("'4' to log out");
+				
+				System.out.println("--------------------------------------->");
 				choice = sc.nextInt();
 
 				switch (choice) {
@@ -128,12 +130,15 @@ public static void brokerFunctionality(Scanner sc, Map<String, Broker> broker, M
 			try {
 				int choice = 0;
 				do {
+					System.out.println();
+					System.out.println("------------------------------------------------------>");
 					System.out.println("Select the option of your choice");
 					System.out.println("'1' to view all trader's account");
 					System.out.println("'2' to view trader's porfolio");
 					System.out.println("'3' to view transaction history");
 					System.out.println("'4' to view transaction history of perticular trader");
 					System.out.println("'5' to logout");
+					System.out.println("------------------------------------------------------>");
 					choice = sc.nextInt();
 
 					switch (choice) {
@@ -272,7 +277,7 @@ public static void traderFunctionality(Scanner sc, Map<String, Broker> broker, M
 			int choice = 0;
 			
 			do {
-				
+				System.out.println("---------------------------------------->");
 				System.out.println("Select the option of your choice");
 				System.out.println("'1' to view all stocks");
 				System.out.println("'2' to buy a new stock");
@@ -283,6 +288,7 @@ public static void traderFunctionality(Scanner sc, Map<String, Broker> broker, M
 				System.out.println("'7' to view my transactions");
 				System.out.println("'8' to delete the account");
 				System.out.println("'9' to logout");
+				System.out.println("---------------------------------------->");
 				choice = sc.nextInt();
                        
 				try {
@@ -433,6 +439,7 @@ private static void TraderLogin(String username, String pass, Map<String, Trader
 }
 
 public static void traderSignup(Scanner sc, Map<String, Trader> trader) throws DuplicateDataException {
+	System.out.println();
 	
 	System.out.println("please enter the following details to Signup for trader's account");
 	System.out.println("please enter the user name");
@@ -445,8 +452,9 @@ public static void traderSignup(Scanner sc, Map<String, Trader> trader) throws D
 	System.out.println("Enter the age");
 	int age = sc.nextInt();
 	System.out.println("Enter the balance to be added into the wallet");
-	double balance = sc.nextDouble();
 	
+	double balance = sc.nextDouble();
+	System.out.println();
 	Trader trd = new Trader(name, pass, age, balance, email);
 
 	TraderServices traderServices= new TraderServicesImpl();
@@ -466,7 +474,7 @@ public static void traderSignup(Scanner sc, Map<String, Trader> trader) throws D
 		
 		
 		Scanner sc= new Scanner(System.in);
-		System.out.println("Welcome To TCG Stock...");
+		System.out.println("------------------->Welcome To TCG_Stocks<-------------------------");
 		System.out.println();
 		int preference=0;
 		try {
@@ -480,8 +488,12 @@ public static void traderSignup(Scanner sc, Map<String, Trader> trader) throws D
 //				System.out.println(trader.size());
 //				System.out.println(transactions.size());
 				
+				System.out.println("------------------------------>");
+				
 				System.out.println("Please enter your preference.\n" + "'1' --> Admin login \n'2' --> Broker login \n"
 						+ "'3' --> Broker Signup\n'4' --> Trader Login\n'5' --> Trader Signup\n'0' --> Exit ");
+				
+				System.out.println("------------------------------->");
 				 preference= sc.nextInt();
 				try {
 					
@@ -509,7 +521,7 @@ public static void traderSignup(Scanner sc, Map<String, Trader> trader) throws D
 						break;
 						
 					case 0: 
-						System.out.println("successfully existed from the trader's mart");
+						System.out.println("successfully existed from the TCG_Stocks.");
 						break;
 						
 					default:
